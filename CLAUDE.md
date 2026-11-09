@@ -26,7 +26,7 @@ A single-player trading game set in the late-90s craze for bean-filled plushies.
 
 - 30-day season, $60 to start, 15 shelf spots, any plushie takes one spot.
 - 6 shops on a town map. Trip time = map distance / 260, rounded, minimum 1 day. The player can also wait a day in place.
-- Hype multiplies by 1.11 each day. On a random crash day (22 to 27) it drops to 12% of its peak, then keeps falling 15% a day.
+- Hype multiplies by 1.14 each day. On a random crash day (22 to 27) it drops to 12% of its peak, then keeps falling 15% a day.
 - Warning headlines appear in the 2 days before the crash.
 - Each shop has its own price level, sell-back spread and price noise. Garage sales lag the hype (k < 1) and the collectors' con leads it (k > 1), so flipping between them pays.
 - One random plushie is "retired" between days 8 and 14 and is worth double from then on.

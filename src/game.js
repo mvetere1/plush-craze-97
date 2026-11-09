@@ -153,7 +153,8 @@
       const n = state.shelf[p.id] || 0;
       if (!n) return;
       const b = isRetired(state, p.id, state.day) ? C.retireBoost : 1;
-      leftover += n * Math.max(1, Math.round(p.base * garage.mult * Math.pow(h, garage.k) * b * garage.spread));
+      const special = garage.cheap === p.id ? 0.7 : 1;
+      leftover += n * Math.max(1, Math.round(p.base * garage.mult * Math.pow(h, garage.k) * b * special * garage.spread));
     });
     return { cash: state.cash, leftover, unsold: shelfUsed(state), total: state.cash + leftover };
   }
