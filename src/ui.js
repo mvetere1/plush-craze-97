@@ -16,7 +16,6 @@
 
   function hypeInfo() {
     const h = G.hype(state.day, state.crashDay);
-    const prev = G.hype(Math.max(1, state.day - 1), state.crashDay);
     const crashed = state.day >= state.crashDay;
     // The bar fills at the highest hype any season can reach, so a full bar never gives away the crash day.
     const maxLog = Math.log(C.hypeGrowth) * (C.crashWindow[1] - 2);

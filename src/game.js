@@ -34,7 +34,7 @@
     const h = hype(day, state.crashDay);
     const out = {};
     D.PLUSHIES.forEach((p) => {
-      const special = loc.cheap === p.id ? 0.7 : 1;
+      const special = loc.cheap === p.id ? C.cheapDiscount : 1;
       const b = isRetired(state, p.id, day) ? C.retireBoost : 1;
       const wobble = 1 + loc.noise * (rng() * 2 - 1);
       const raw = p.base * loc.mult * Math.pow(h, loc.k) * b * special * wobble;
@@ -153,7 +153,7 @@
       const n = state.shelf[p.id] || 0;
       if (!n) return;
       const b = isRetired(state, p.id, state.day) ? C.retireBoost : 1;
-      const special = garage.cheap === p.id ? 0.7 : 1;
+      const special = garage.cheap === p.id ? C.cheapDiscount : 1;
       leftover += n * Math.max(1, Math.round(p.base * garage.mult * Math.pow(h, garage.k) * b * special * garage.spread));
     });
     return { cash: state.cash, leftover, unsold: shelfUsed(state), total: state.cash + leftover };

@@ -21,6 +21,8 @@
     steal: 0.8,            // buy price below guide x this shows "Steal!"
     overpriced: 1.15,      // buy price above guide x this shows "Overpriced"
 
+    cheapDiscount: 0.7,    // price multiplier for a shop's discounted plushie
+
     tycoonScore: 4000      // final score at or above this earns the "Plush tycoon" verdict
   };
 
