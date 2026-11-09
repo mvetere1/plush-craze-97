@@ -103,6 +103,23 @@ test('final score counts cash plus leftovers at garage-sale value', () => {
   assert.equal(score.total, score.cash + score.leftover);
 });
 
+test('finalScore applies the cheap discount for the garage\'s discounted plushie', () => {
+  const garage = D.PLACES.find((p) => p.id === 'garage');
+  const cheapId = garage.cheap; // 'waddles'
+  const otherId = D.PLUSHIES.find((p) => p.id !== cheapId).id;
+  let s = Object.assign(G.newGame(seeded(11)), { cash: 1e6 });
+  s = G.buy(s, cheapId);
+  s = G.buy(s, otherId);
+  const score = G.finalScore(s);
+  // Cheap plushie sell value at garage must be 70% of the other plushie's sell value at the same relative base
+  const h = G.hype(s.day, s.crashDay);
+  const cheapBase = D.PLUSHIES.find((p) => p.id === cheapId).base;
+  const otherBase = D.PLUSHIES.find((p) => p.id === otherId).base;
+  const expectedCheap = Math.max(1, Math.round(cheapBase * garage.mult * Math.pow(h, garage.k) * 0.7 * garage.spread));
+  const expectedOther = Math.max(1, Math.round(otherBase * garage.mult * Math.pow(h, garage.k) * 1.0 * garage.spread));
+  assert.equal(score.leftover, expectedCheap + expectedOther);
+});
+
 test('there is always a headline', () => {
   const s = G.newGame(seeded(10));
   for (let d = 1; d <= C.seasonDays; d++) {

@@ -4,6 +4,7 @@
   "description": "A trading game about the late-90s bean-filled plush craze. Buy low, sell high, and get out before the bubble pops.",
   "private": true,
   "scripts": {
-    "test": "node tests/game.test.js"
+    "test": "node tests/game.test.js",
+    "sim": "node tools/simulate.js"
   }
 }

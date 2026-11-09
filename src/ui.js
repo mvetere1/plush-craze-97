@@ -18,13 +18,16 @@
     const h = G.hype(state.day, state.crashDay);
     const prev = G.hype(Math.max(1, state.day - 1), state.crashDay);
     const crashed = state.day >= state.crashDay;
-    const pct = Math.max(4, Math.min(100, Math.round((Math.log(Math.max(h, 1)) / Math.log(14)) * 100)));
+    // The bar fills at the highest hype any season can reach, so a full bar never gives away the crash day.
+    const maxLog = Math.log(C.hypeGrowth) * (C.crashWindow[1] - 2);
+    const pct = Math.max(4, Math.min(100, Math.round((Math.log(Math.max(h, 1)) / maxLog) * 100)));
     return {
       label: h.toFixed(1) + '×',
       pct,
       crashed,
       note: crashed ? 'The bubble has popped. Prices keep sinking.'
-        : (h >= prev ? 'Prices are climbing. How high can they go?' : 'Holding steady.')
+        : (state.crashDay - state.day <= C.warningDays ? 'Something feels off. Watch the headlines.'
+          : 'Prices are climbing. How high can they go?')
     };
   }
 
@@ -191,7 +194,7 @@
 
   function endOverlay() {
     const s = G.finalScore(state);
-    const verdict = s.total >= 2000 ? 'Plush tycoon! You rode the bubble like a pro.'
+    const verdict = s.total >= C.tycoonScore ?'Plush tycoon! You rode the bubble like a pro.'
       : (s.total > C.startCash ? 'Not bad, kid. You came out ahead.' : "Ouch. Should've sold sooner...");
     const leftover = s.unsold ? `<span>${plural(s.unsold, 'unsold plushie')}, worth ${money(s.leftover)} at a garage sale</span>` : '';
     return `

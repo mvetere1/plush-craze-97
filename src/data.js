@@ -7,7 +7,7 @@
     shelfCapacity: 15,     // how many plushies the player can hold
     startPlace: 'garage',
 
-    hypeGrowth: 1.11,      // hype multiplies by this every day before the crash
+    hypeGrowth: 1.14,      // hype multiplies by this every day before the crash
     crashWindow: [22, 27], // the bubble pops on a random day in this range (inclusive)
     crashDrop: 0.12,       // on the crash day hype falls to this fraction of its peak
     postCrashDecay: 0.85,  // after the crash hype keeps shrinking by this factor per day
@@ -19,7 +19,9 @@
     travelDivisor: 260,    // trip days = map distance / this, rounded, minimum 1
 
     steal: 0.8,            // buy price below guide x this shows "Steal!"
-    overpriced: 1.15       // buy price above guide x this shows "Overpriced"
+    overpriced: 1.15,      // buy price above guide x this shows "Overpriced"
+
+    tycoonScore: 4000      // final score at or above this earns the "Plush tycoon" verdict
   };
 
   // Original characters. Do not swap in real brand names or characters.
@@ -39,12 +41,12 @@
   // noise:  random +/- swing on each price
   // cheap:  one plushie that is 30% cheaper here (or null)
   const PLACES = [
-    { id: 'garage', name: 'Garage sales',     x: 230,  y: 470, mult: 0.55, k: 0.75, spread: 0.8,  noise: 0.15, cheap: 'waddles' },
-    { id: 'flea',   name: 'Flea market',      x: 300,  y: 230, mult: 0.75, k: 0.85, spread: 0.85, noise: 0.15, cheap: 'patches' },
+    { id: 'garage', name: 'Garage sales',     x: 230,  y: 470, mult: 0.8,  k: 0.9,  spread: 0.8,  noise: 0.15, cheap: 'waddles' },
+    { id: 'flea',   name: 'Flea market',      x: 300,  y: 230, mult: 0.85, k: 0.92, spread: 0.85, noise: 0.15, cheap: 'patches' },
     { id: 'mall',   name: 'Mall toy store',   x: 590,  y: 290, mult: 1,    k: 0.9,  spread: 0.6,  noise: 0.05, cheap: 'pinky' },
-    { id: 'con',    name: "Collectors' con",  x: 1040, y: 300, mult: 1.3,  k: 1.08, spread: 0.95, noise: 0.1,  cheap: null },
-    { id: 'gift',   name: 'Card & gift shop', x: 860,  y: 560, mult: 1,    k: 0.95, spread: 0.8,  noise: 0.1,  cheap: 'bubbles' },
-    { id: 'online', name: 'Online auction',   x: 560,  y: 590, mult: 1.15, k: 1.05, spread: 0.9,  noise: 0.3,  cheap: null }
+    { id: 'con',    name: "Collectors' con",  x: 1040, y: 300, mult: 1.1,  k: 1.05, spread: 0.88, noise: 0.1,  cheap: null },
+    { id: 'gift',   name: 'Card & gift shop', x: 860,  y: 560, mult: 1,    k: 0.95, spread: 0.75, noise: 0.1,  cheap: 'bubbles' },
+    { id: 'online', name: 'Online auction',   x: 560,  y: 590, mult: 1,    k: 1,    spread: 0.85, noise: 0.3,  cheap: null }
   ];
 
   // News ticker. Lists rotate by day. {name} and {kind} are filled in for the retirement headline.
