@@ -120,6 +120,25 @@ test('finalScore applies the cheap discount for the garage\'s discounted plushie
   assert.equal(score.leftover, expectedCheap + expectedOther);
 });
 
+test('finalScore applies the retire boost for a retired plushie', () => {
+  const garage = D.PLACES.find((p) => p.id === 'garage');
+  let s = Object.assign(G.newGame(seeded(12)), { cash: 1e6 });
+  const retiredId = s.retiredId;
+  const otherId = D.PLUSHIES.find((p) => p.id !== retiredId).id;
+  s = Object.assign({}, s, { retireDay: 1 }); // make retirement active immediately
+  s = G.buy(s, retiredId);
+  s = G.buy(s, otherId);
+  const score = G.finalScore(s);
+  const h = G.hype(s.day, s.crashDay);
+  const retiredBase = D.PLUSHIES.find((p) => p.id === retiredId).base;
+  const otherBase = D.PLUSHIES.find((p) => p.id === otherId).base;
+  const specialRetired = garage.cheap === retiredId ? C.cheapDiscount : 1;
+  const specialOther = garage.cheap === otherId ? C.cheapDiscount : 1;
+  const expectedRetired = Math.max(1, Math.round(retiredBase * garage.mult * Math.pow(h, garage.k) * C.retireBoost * specialRetired * garage.spread));
+  const expectedOther = Math.max(1, Math.round(otherBase * garage.mult * Math.pow(h, garage.k) * 1 * specialOther * garage.spread));
+  assert.equal(score.leftover, expectedRetired + expectedOther);
+});
+
 test('there is always a headline', () => {
   const s = G.newGame(seeded(10));
   for (let d = 1; d <= C.seasonDays; d++) {
