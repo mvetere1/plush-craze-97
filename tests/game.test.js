@@ -139,6 +139,25 @@ test('finalScore applies the retire boost for a retired plushie', () => {
   assert.equal(score.leftover, expectedRetired + expectedOther);
 });
 
+test('a plushie can be stolen during travel or wait', () => {
+  // Force theft: rng always returns 0 (< theftChance), second call picks first plushie
+  const alwaysSteal = (() => { let n = 0; return () => n++ === 0 ? 0 : 0; })();
+  let s = Object.assign(G.newGame(seeded(13)), { cash: 1e6 });
+  s = G.buy(s, 'pinky');
+  const before = s.shelf.pinky || 0;
+  s = G.wait(s, alwaysSteal);
+  assert.equal((s.shelf.pinky || 0), before - 1, 'one plushie should be removed on theft');
+  assert.ok(s.msg.includes('swiped'), 'theft message should mention swiped');
+});
+
+test('theft does nothing when the shelf is empty', () => {
+  const alwaysSteal = () => 0;
+  const s = G.newGame(seeded(14));
+  assert.equal(G.shelfUsed(s), 0);
+  const after = G.wait(s, alwaysSteal);
+  assert.equal(G.shelfUsed(after), 0);
+});
+
 test('there is always a headline', () => {
   const s = G.newGame(seeded(10));
   for (let d = 1; d <= C.seasonDays; d++) {

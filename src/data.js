@@ -23,6 +23,8 @@
 
     cheapDiscount: 0.7,    // price multiplier for a shop's discounted plushie
 
+    theftChance: 0.08,     // probability per travel/wait action that a plushie gets stolen
+
     tycoonScore: 4000      // final score at or above this earns the "Plush tycoon" verdict
   };
 

@@ -98,6 +98,18 @@
     });
   }
 
+  function maybeSteal(state, rng) {
+    if (rng() >= C.theftChance) return state;
+    const owned = D.PLUSHIES.filter((p) => (state.shelf[p.id] || 0) > 0);
+    if (!owned.length) return state;
+    const stolen = owned[Math.floor(rng() * owned.length)];
+    const shelf = Object.assign({}, state.shelf, { [stolen.id]: state.shelf[stolen.id] - 1 });
+    return Object.assign({}, state, {
+      shelf,
+      msg: 'Someone swiped your ' + stolen.name + ' while you weren\'t looking! Classic.'
+    });
+  }
+
   function rememberHere(state) {
     return Object.assign({}, state.notes, { [state.place]: { day: state.day, prices: state.prices } });
   }
@@ -113,7 +125,7 @@
       msg: 'Made it to ' + place(placeId).name + ' after ' + d + (d === 1 ? ' day.' : ' days.')
     });
     next.prices = genPrices(next, placeId, day, rng);
-    return next;
+    return maybeSteal(next, rng);
   }
 
   function wait(state, rng) {
@@ -125,7 +137,7 @@
       msg: 'You hung around ' + place(state.place).name + ' for a day. Prices moved.'
     });
     next.prices = genPrices(next, state.place, day, rng);
-    return next;
+    return maybeSteal(next, rng);
   }
 
   function headline(state) {
